@@ -10,6 +10,8 @@ After that,
 * For Linux: link your project against `deflate`, `unistring`, `ncurses` and `m`.
 * For macOS: link your project against `unistring`, `z` and `ncurses`.
 
+*macOS note: use homebrew to install dependencies -- unistring does not support pkg-config so the homebrew installation path is hard-coded.*
+
 ## Example
 ```jai
 // Do this when you are changing target options for your workspace.
