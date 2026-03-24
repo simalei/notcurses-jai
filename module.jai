@@ -4,7 +4,7 @@
 
 #if OS == {
     case .LINUX;
-	#load "linux/bindings.jai";
+        #load "linux/bindings.jai";
     case .MACOS;
-	#load "macos/bindings.jai";
+        #load "macos/bindings.jai";
 }

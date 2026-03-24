@@ -20,8 +20,9 @@ generate :: () -> bool {
 	
 	#if OS == {
 	    case .LINUX;
-		array_add(*libpaths, "linux/");
+                array_add(*libpaths, "linux/");
 	    case .MACOS;
+                //array_add(*libpaths, "/opt/homebrew/Cellar/notcurses/3.0.17/lib");
 		array_add(*libpaths, "macos/");
 	}
 
@@ -38,11 +39,11 @@ generate :: () -> bool {
         FOOTER :: #string EOF
 FILE :: void;
 #if OS == .LINUX {
-    libnotcurses        :: #library,no_dll "linux/libnotcurses";
-    libnotcurses_ffi    :: #library,no_dll "linux/libnotcurses-ffi";
+    libnotcurses        :: #library,no_dll "libnotcurses";
+    libnotcurses_ffi    :: #library,no_dll "libnotcurses-ffi";
 } else #if OS == .MACOS {
-    libnotcurses        :: #library,no_dll "macos/libnotcurses";
-    libnotcurses_ffi    :: #library,no_dll "macos/libnotcurses-ffi";
+    libnotcurses        :: #library,no_dll "libnotcurses";
+    libnotcurses_ffi    :: #library,no_dll "libnotcurses-ffi";
 }
         EOF
 
@@ -53,10 +54,10 @@ FILE :: void;
 
     output_filename: string;
     #if OS == {
-	case .LINUX;
-	    output_filename = "linux/bindings.jai";
-	case .MACOS;
-	    output_filename = "macos/bindings.jai";
+        case .LINUX;
+            output_filename = "linux/bindings.jai";
+        case .MACOS;
+            output_filename = "macos/bindings.jai";
     }
     return generate_bindings(opts, output_filename);
 }

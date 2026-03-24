@@ -111,6 +111,7 @@ compile :: (debug: bool) -> bool {
 
 	make_directory_if_it_does_not_exist("macos");
         success &&= build_cpp_static_lib("macos/libnotcurses", ..source_files, extra = extra_args, debug = debug);
+        //success &&= build_cpp_dynamic_lib("macos/libnotcurses", ..source_files, extra = extra_args, debug = debug);
         array_add(*extra_args, "-DNOTCURSES_FFI");
         success &&= build_cpp_static_lib("macos/libnotcurses-ffi", tprint("%/src/libffi/ffi.c", SOURCE_PATH), extra = extra_args, debug = debug);
     }

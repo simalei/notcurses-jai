@@ -3699,9 +3699,9 @@ ncdirect_canget_cursor :: (nc: *ncdirect) -> bool #foreign libnotcurses;
 
 FILE :: void;
 #if OS == .LINUX {
-    libnotcurses        :: #library,no_dll "linux/libnotcurses";
-    libnotcurses_ffi    :: #library,no_dll "linux/libnotcurses-ffi";
+    libnotcurses        :: #library,no_dll "libnotcurses";
+    libnotcurses_ffi    :: #library,no_dll "libnotcurses-ffi";
 } else #if OS == .MACOS {
-    libnotcurses        :: #library,no_dll "macos/libnotcurses";
-    libnotcurses_ffi    :: #library,no_dll "macos/libnotcurses-ffi";
+    libnotcurses        :: #library,no_dll "libnotcurses";
+    libnotcurses_ffi    :: #library,no_dll "libnotcurses-ffi";
 }
