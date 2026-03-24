@@ -1,4 +1,4 @@
-#if OS != .LINUX {
+#if OS == .WINDOWS {
     #assert false "Your OS is not supported.";
 }
 
@@ -95,17 +95,25 @@ compile :: (debug: bool) -> bool {
 
     extra_args: [..] string;
     array_add(*extra_args, tprint("-I%/src/lib/", SOURCE_PATH), tprint("-I%/src/", SOURCE_PATH), tprint("-I%/include/", SOURCE_PATH));
-    #if OS == .LINUX {
-        array_add(*extra_args, "-D_XOPEN_SOURCE=700", "-D_DEFAULT_SOURCE", "-D_GNU_SOURCE", "-DUSE_DEFLATE=off");
-    }
 
     success := true;
     #if OS == .LINUX {
-        make_directory_if_it_does_not_exist("linux");
+        array_add(*extra_args, "-D_XOPEN_SOURCE=700", "-D_DEFAULT_SOURCE", "-D_GNU_SOURCE", "-DUSE_DEFLATE=off");
+        
+	make_directory_if_it_does_not_exist("linux");
         success &&= build_cpp_static_lib("linux/libnotcurses", ..source_files, extra = extra_args, debug = debug);
         array_add(*extra_args, "-DNOTCURSES_FFI");
         success &&= build_cpp_static_lib("linux/libnotcurses-ffi", tprint("%/src/libffi/ffi.c", SOURCE_PATH), extra = extra_args, debug = debug);
-        //success &&= build_cpp_dynamic_lib("linux/notcurses", ..source_files, extra = extra_args, debug = debug);
+    } else #if OS == .MACOS {
+	// @Fix Apparently, libunistring doesn't support pkg-config
+	// This is the best we can do for now
+	array_add(*extra_args, "-I/opt/homebrew/Cellar/libunistring/1.4.2/include");
+
+	make_directory_if_it_does_not_exist("macos");
+        success &&= build_cpp_static_lib("macos/libnotcurses", ..source_files, extra = extra_args, debug = debug);
+        //success &&= build_cpp_dynamic_lib("macos/libnotcurses", ..source_files, extra = extra_args, debug = debug);
+        array_add(*extra_args, "-DNOTCURSES_FFI");
+        success &&= build_cpp_static_lib("macos/libnotcurses-ffi", tprint("%/src/libffi/ffi.c", SOURCE_PATH), extra = extra_args, debug = debug);
     }
 
     return success;

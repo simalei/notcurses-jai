@@ -1,5 +1,10 @@
-#if OS != .LINUX {
-    #assert false "Only Linux is supported.";
+#if OS == .WINDOWS {
+    #assert false "Your OS is not supported.";
 }
 
-#load "bindings.jai";
+#if OS == {
+    case .LINUX;
+        #load "linux/bindings.jai";
+    case .MACOS;
+        #load "macos/bindings.jai";
+}

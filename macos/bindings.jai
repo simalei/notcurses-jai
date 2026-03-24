@@ -6,7 +6,6 @@
 
 
 
-_XOPEN_SOURCE :: 700;
 PRETERUNICODEBASE :: 1115000;
 
 NCKEY_TAB :: 0x09;
@@ -164,7 +163,6 @@ NCDIRECT_OPTION_VERY_VERBOSE :: 0x0020;
 
 timespec :: struct {
     tv_sec:  s64;
-
     tv_nsec: s64;
 }
 
@@ -3701,6 +3699,9 @@ ncdirect_canget_cursor :: (nc: *ncdirect) -> bool #foreign libnotcurses;
 
 FILE :: void;
 #if OS == .LINUX {
-    libnotcurses        :: #library,no_dll "linux/libnotcurses";
-    libnotcurses_ffi    :: #library,no_dll "linux/libnotcurses-ffi";
+    libnotcurses        :: #library,no_dll "libnotcurses";
+    libnotcurses_ffi    :: #library,no_dll "libnotcurses-ffi";
+} else #if OS == .MACOS {
+    libnotcurses        :: #library,no_dll "libnotcurses";
+    libnotcurses_ffi    :: #library,no_dll "libnotcurses-ffi";
 }

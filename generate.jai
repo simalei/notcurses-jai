@@ -1,4 +1,4 @@
-#if OS != .LINUX {
+#if OS == .WINDOWS {
     #assert false "Your OS is not supported.";
 }
 
@@ -17,10 +17,15 @@ generate :: () -> bool {
         array_add(*source_files, tprint("%/%", SOURCE_PATH, "include/notcurses/nckeys.h"));
         array_add(*source_files, tprint("%/%", SOURCE_PATH, "include/notcurses/ncport.h")); 
         array_add(*source_files, tprint("%/%", SOURCE_PATH, "include/notcurses/ncseqs.h"));
+	
+	#if OS == {
+	    case .LINUX;
+                array_add(*libpaths, "linux/");
+	    case .MACOS;
+                //array_add(*libpaths, "/opt/homebrew/Cellar/notcurses/3.0.17/lib");
+		array_add(*libpaths, "macos/");
+	}
 
-        #if OS == .LINUX {
-            array_add(*libpaths, "linux/");
-        }
         array_add(*include_paths, tprint("%/%", SOURCE_PATH, "include/"));
 
         array_add(*system_types_to_include, "timespec");
@@ -34,8 +39,11 @@ generate :: () -> bool {
         FOOTER :: #string EOF
 FILE :: void;
 #if OS == .LINUX {
-    libnotcurses        :: #library,no_dll "linux/libnotcurses";
-    libnotcurses_ffi    :: #library,no_dll "linux/libnotcurses-ffi";
+    libnotcurses        :: #library,no_dll "libnotcurses";
+    libnotcurses_ffi    :: #library,no_dll "libnotcurses-ffi";
+} else #if OS == .MACOS {
+    libnotcurses        :: #library,no_dll "libnotcurses";
+    libnotcurses_ffi    :: #library,no_dll "libnotcurses-ffi";
 }
         EOF
 
@@ -45,8 +53,11 @@ FILE :: void;
     }
 
     output_filename: string;
-    #if OS == .LINUX {
-        output_filename = "bindings.jai";
+    #if OS == {
+        case .LINUX;
+            output_filename = "linux/bindings.jai";
+        case .MACOS;
+            output_filename = "macos/bindings.jai";
     }
     return generate_bindings(opts, output_filename);
 }
