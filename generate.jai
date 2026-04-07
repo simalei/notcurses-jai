@@ -42,10 +42,10 @@ FILE :: void;
 libnotcurses     :: #library,no_dll "libnotcurses";
 libnotcurses_ffi :: #library,no_dll "libnotcurses-ffi";
 
-libdeflate       :: #library,link_always "deflate";
-libunistring     :: #library,link_always "unistring";
-libncurses       :: #library,link_always "ncurses";
-libm             :: #library,link_always "m"; 
+libdeflate       :: #system_library,link_always "deflate";
+libunistring     :: #system_library,link_always "unistring";
+libncurses       :: #system_library,link_always "ncurses";
+libm             :: #system_library,link_always "m"; 
         EOF
 
         footer = FOOTER;

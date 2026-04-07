@@ -3700,10 +3700,11 @@ ncdirect_canget_cursor :: (nc: *ncdirect) -> bool #foreign libnotcurses;
 }
 
 FILE :: void;
-#if OS == .LINUX {
-    libnotcurses        :: #library,no_dll "libnotcurses";
-    libnotcurses_ffi    :: #library,no_dll "libnotcurses-ffi";
-} else #if OS == .MACOS {
-    libnotcurses        :: #library,no_dll "libnotcurses";
-    libnotcurses_ffi    :: #library,no_dll "libnotcurses-ffi";
-}
+
+libnotcurses     :: #library,no_dll "libnotcurses";
+libnotcurses_ffi :: #library,no_dll "libnotcurses-ffi";
+
+libdeflate       :: #system_library,link_always "deflate";
+libunistring     :: #system_library,link_always "unistring";
+libncurses       :: #system_library,link_always "ncurses";
+libm             :: #system_library,link_always "m"; 
