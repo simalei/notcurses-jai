@@ -38,13 +38,14 @@ generate :: () -> bool {
 
         FOOTER :: #string EOF
 FILE :: void;
-#if OS == .LINUX {
-    libnotcurses        :: #library,no_dll "libnotcurses";
-    libnotcurses_ffi    :: #library,no_dll "libnotcurses-ffi";
-} else #if OS == .MACOS {
-    libnotcurses        :: #library,no_dll "libnotcurses";
-    libnotcurses_ffi    :: #library,no_dll "libnotcurses-ffi";
-}
+
+libnotcurses     :: #library,no_dll "libnotcurses";
+libnotcurses_ffi :: #library,no_dll "libnotcurses-ffi";
+
+libdeflate       :: #library,link_always "deflate";
+libunistring     :: #library,link_always "unistring";
+libncurses       :: #library,link_always "ncurses";
+libm             :: #library,link_always "m"; 
         EOF
 
         footer = FOOTER;
